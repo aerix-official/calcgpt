@@ -18,16 +18,28 @@ It will:
  2. Download and install the CE C/C++ Toolchain (~100 MB) under
     `%USERPROFILE%\CEdev`, no admin needed.
  3. Build `CALCGPT.8xp`.
- 4. Optionally save your `ANTHROPIC_API_KEY` for your user.
+ 4. Walk you through getting an Anthropic API key and save it for your
+    user (the host can't run without one).
 
-You still need Python 3.9+ installed beforehand
-(<https://www.python.org/downloads/>, tick "Add python.exe to PATH"), and
-[TI Connect CE](https://education.ti.com/en/software/details/en/CA9C74CAD02440A69FDC7189D7E1B6C2/swticonnectcesoftware)
-to copy `CALCGPT.8xp` onto the calculator (a one-time GUI drag-and-drop
-that no script can do for you).
+Before running it you need Python 3.9+
+(<https://www.python.org/downloads/>, tick "Add python.exe to PATH").
 
-After that, plug in the calculator, run `Asm(CALCGPT)` from the catalog,
-and start `run.bat` on your PC.
+After `setup.bat` finishes, you still need to do these by hand because
+they happen on the calculator / in a GUI:
+
+ 1. Install [TI Connect CE](https://education.ti.com/en/software/details/en/CA9C74CAD02440A69FDC7189D7E1B6C2/swticonnectcesoftware)
+    on your PC - this is the program that moves files onto the calc.
+ 2. **Install Cesium on your calculator.** Modern TI-OS blocks the old
+    `Asm(` command, so a CE C program will not run from the catalog.
+    Cesium is a free shell that launches them.
+    - Download `Cesium.8xk` from <https://www.cemetech.net/downloads/files/1244>
+    - Plug the calc in via USB, open TI Connect CE, drag `Cesium.8xk`
+      onto the calculator.
+ 3. Drag `CalculatorProgram\calcgpt\bin\CALCGPT.8xp` onto the calc in
+    TI Connect CE.
+ 4. On the calc: press `[apps]`, choose `Cesium`, highlight `CALCGPT`,
+    press `[enter]`. The screen should say "Ready".
+ 5. Open a **new** terminal in this folder and run `run.bat`.
 
 The rest of this README covers what the helpers actually do, manual
 setup, and configuration.
@@ -117,12 +129,15 @@ through to `make`.
 
 ## Usage
 
- 1. Connect the calculator to your computer via USB.
- 2. Transfer `CALCGPT.8xp` to the calculator using TI Connect&trade; CE.
- 3. On the calculator: open the catalog (**2nd**, then **0**), choose
-    `Asm(`, then pick `CALCGPT` and press enter twice. The screen will
-    print "Ready" once it's listening on USB.
- 4. Set your API key (skip this if `setup.bat` already saved it):
+ 1. Make sure **Cesium** is installed on the calculator (see Quick start
+    step 2). On modern TI-OS the old `Asm(` command is blocked, so
+    Cesium is what actually launches CE C programs.
+ 2. Connect the calculator to your computer via USB.
+ 3. Transfer `CALCGPT.8xp` to the calculator using TI Connect&trade; CE.
+ 4. On the calculator: press **[apps]**, select `Cesium`, highlight
+    `CALCGPT`, press **[enter]**. The screen will print "Ready" once
+    it's listening on USB.
+ 5. Set your API key (skip this if `setup.bat` already saved it):
     ```powershell
     # Windows PowerShell
     $env:ANTHROPIC_API_KEY = "sk-ant-..."
@@ -131,7 +146,7 @@ through to `make`.
     # macOS / Linux
     export ANTHROPIC_API_KEY=sk-ant-...
     ```
- 5. Run the host:
+ 6. Run the host:
     ```
     run.bat
     ```
@@ -141,13 +156,13 @@ through to `make`.
     ```
     It auto-detects the calculator on most systems; if not, pick the
     correct port from the list.
- 6. The calculator switches to "Connected!" once the host writes its
+ 7. The calculator switches to "Connected!" once the host writes its
     handshake byte.
- 7. Press **2nd** to open the input screen. Type with the alpha keys.
+ 8. Press **2nd** to open the input screen. Type with the alpha keys.
     Press **ALPHA** to cycle between `[123]`, `[ABC]`, and `[abc]`. Press
     **DEL** to backspace, **MODE** to cancel, **enter** to send.
- 8. The reply streams back. Use **up/down arrows** to scroll older pages.
- 9. Send `/reset` (or `clear`) as a prompt to wipe the conversation.
+ 9. The reply streams back. Use **up/down arrows** to scroll older pages.
+ 10. Send `/reset` (or `clear`) as a prompt to wipe the conversation.
 
 ## Configuration
 
