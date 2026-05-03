@@ -1,0 +1,15 @@
+# Conversation logs written by DesktopProgram\calcgpt.py
+calcgpt-log-*.jsonl
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
